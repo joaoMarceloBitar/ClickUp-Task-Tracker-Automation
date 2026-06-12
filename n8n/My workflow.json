@@ -1,0 +1,302 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 2
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "abe168c2-ebda-40f0-8b30-960ac03576d7",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "team": "90171308687",
+        "space": "90176017145",
+        "folder": "90179290017",
+        "list": "901714433814",
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "23b31470-4874-4e7e-a5d3-d9d3e8e0fba4",
+      "name": "Get many tasks",
+      "credentials": {
+        "clickUpApi": {
+          "id": "TMQIbuc1OYWNh0uO",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "35cc2c12-b321-439f-9008-ea91943e9196",
+              "leftValue": "={{ $json.status.status }}",
+              "rightValue": "aprovado",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "dcdd5ac8-9755-418c-93fc-b00865786a8e",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Você é um especialista em Instagram.\n\nAnalise a legenda abaixo e gere 15 hashtags relevantes.\n\nLegenda:\n\n{{$json.description}}\n\nRetorne apenas as hashtags."
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "5097f12c-e0f5-4155-9d63-58ce41b2206b",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "n0CYdgEjWQWr2vQQ",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "useCustomSchema": true,
+        "tableId": "postCliente",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $json.titulo }}"
+            },
+            {
+              "fieldId": "legenda",
+              "fieldValue": "={{ $json.descricao }}"
+            },
+            {
+              "fieldId": "tags",
+              "fieldValue": "={{ $json.hashtags }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        480,
+        224
+      ],
+      "id": "80092360-9057-427c-b273-1b5dfa7543a0",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "F2ej0voIHpugDqLG",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        64,
+        224
+      ],
+      "id": "f6a8457d-4eac-4f32-9674-47cc0125ee88",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"titulo\": \"{{ $json.name }}\",\n  \"descricao\": \"{{ $json.description }}\",\n  \"hashtags\": {{ $json.content.parts[0].text }}\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        256,
+        224
+      ],
+      "id": "ec64647d-7edf-40a7-9442-b1e3332396a1",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sendTo": "joaomarcelo.bitar@gmail.com",
+        "subject": "=Post aprovado - BrioLab",
+        "message": "=O post agendado: {{ $json.nome }} com as hashtags: {{ $json.tags }} está aprovado!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        224
+      ],
+      "id": "1dce3e72-0d54-45ce-ba11-0a53349851ad",
+      "name": "Send a message",
+      "webhookId": "da01ea58-86dd-4dc7-8270-ac52e4bf61d0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5SpsW88HzOFaAgKQ",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many tasks": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "8032f794-65e8-4dd4-9ba1-d62dd08f04d7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "14a743f6924beda317c7dbbfe21e61f9692a7d016037f7cdb2abaafb444be0af"
+  },
+  "id": "wa9q9X5ddLRtym47",
+  "tags": []
+}
