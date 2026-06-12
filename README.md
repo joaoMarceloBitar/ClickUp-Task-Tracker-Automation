@@ -3,11 +3,6 @@
 Este repositório contém a resolução do desafio prático para a vaga de Desenvolvedor(a) de Automação & IA. O projeto simula demandas reais de orquestração de fluxos com n8n e tratamento de dados em backend com Python.
 
 ## 📁 Estrutura do Repositório
-# Desafio Técnico - Automação & IA (Brio Lab)
-
-Este repositório contém a resolução do desafio prático para a vaga de Desenvolvedor(a) de Automação & IA. O projeto simula demandas reais de orquestração de fluxos com n8n e tratamento de dados em backend com Python.
-
-## 📁 Estrutura do Repositório
 
 ```text
 DESAFIOTECNICO/
