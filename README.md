@@ -32,34 +32,34 @@ O código Python utiliza um ambiente virtual (`venv`) para isolar as dependênci
 
 ### 1. Navegação e Inicialização
 Abra o seu terminal na raiz do projeto e mude para o diretório onde o código Python e o ambiente virtual estão localizados:
-\`\`\`bash
+```bash
 cd python
-\`\`\`
+```
 
 ### 2. Criação do Ambiente Virtual
 Caso o ambiente virtual ainda não tenha sido gerado no diretório, crie-o executando o comando correspondente ao seu sistema:
-\`\`\`bash
+```bash
 python -m venv venv
-\`\`\`
+```
 
 ### 3. Ativação da Virtual Environment (venv)
 Ative o ambiente para garantir que os pacotes sejam instalados e executados de forma isolada:
 
 * **No Windows (CMD/PowerShell):**
-  \`\`\`bash
+  ```bash
   .\venv\Scripts\activate
-  \`\`\`
+  ```
 * **No Linux/macOS:**
-  \`\`\`bash
+  ```bash
   source venv/bin/activate
-  \`\`\`
+  ```
 > *(Você saberá que a venv foi ativada com sucesso quando o prefixo `(venv)` aparecer no início da linha de comando do seu terminal).*
 
 ### 4. Instalação das Dependências
 Com a venv devidamente ativada, instale todas as bibliotecas necessárias para o projeto através do arquivo de requerimentos:
-\`\`\`bash
+```bash
 pip install -r requirements.txt
-\`\`\`
+```
 
 ### 5. Configuração de Variáveis de Ambiente
 1. Vá até a raiz da pasta `python/` e crie um arquivo local nomeado exatamente como `.env`.
@@ -68,9 +68,9 @@ pip install -r requirements.txt
 
 ### 6. Execução do Script
 Para rodar a aplicação, realizar as validações de dados e disparar o fluxo integrado, execute o arquivo principal a partir do diretório raiz do Python:
-\`\`\`bash
+```bash
 python app/main.py
-\`\`\`
+```
 
 ## ⚙️ Configurando o Workflow (n8n)
 
@@ -78,18 +78,18 @@ Para visualizar, editar e testar a orquestração de fluxo solicitada no **Desaf
 
 ### 1. Inicialização do Ambiente
 Certifique-se de que sua instância local do n8n está ativa. Se estiver rodando via terminal, utilize o comando padrão do seu ambiente:
-\`\`\`bash
+```bash
 n8n start
-\`\`\`
+```
 
 ### 2. Importando o Workflow JSON
 1. No painel lateral esquerdo do n8n, navegue até **Workflows** e clique em **Add Workflow** (ou abra uma tela de fluxo em branco).
 2. No canto superior direito da tela de edição, clique no ícone de três pontinhos (`...`).
 3. No menu suspenso, seleciona a opção **Import from File**.
 4. Navegue pelas pastas do seu computador e selecione o arquivo correspondente neste repositório:
-   \`\`\`text
+   ```text
    n8n/workflow.json
-   \`\`\`
+   ```
 
 ### 3. Configuração de Credenciais Locais
 Com o fluxo carregado na sua tela, você precisará associar suas próprias chaves de teste para que os nós consigam se comunicar com as plataformas:
@@ -110,9 +110,9 @@ Com o fluxo carregado na sua tela, você precisará associar suas próprias chav
 ### 🗺️ Como Funciona o Fluxo de Automação (Nó por Nó)
 
 ## Executando o fluxo n8n
-\`\`\`text
+```text
 O fluxo consiste em um trigger que gera hashtags para posts já aprovados na task list do ClickUp, armazena os dados em um banco de dados Supabase, e notifica o processo por e-mail.
-\`\`\`
+```
 
 ### 🗺️ Como Funciona o Fluxo de Automação (Nó por Nó)
 
