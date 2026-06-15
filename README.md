@@ -97,13 +97,6 @@ Com o fluxo carregado na sua tela, você precisará associar suas próprias chav
 2. Certifique-se de que as tabelas necessárias estejam criadas no seu banco de dados.
 3. Clique em **Execute Workflow** na barra inferior para colocar o fluxo em modo de escuta ou rodar o payload de teste criado.
 
-
-## Executando o fluxo n8n
-
-    O fluxo consiste em um trigger que gera hashtags para posts já aprovados na task list do ClickUp, armazena os dados em um banco de dados Supabase, e notifica o processo por email 
-
-### 🗺️ Como Funciona o Fluxo de Automação (Nó por Nó)
-
 ## Executando o fluxo n8n
 ```text
 O fluxo consiste em um trigger que gera hashtags para posts já aprovados na task list do ClickUp, armazena os dados em um banco de dados Supabase, e notifica o processo por e-mail.
